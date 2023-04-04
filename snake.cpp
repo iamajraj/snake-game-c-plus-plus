@@ -47,7 +47,7 @@ void setup(){
    gameOver = false;
    generateFood();
    cout << "#### SNAKE GAME ####" << endl;
-   cout << "To PLAY follow the below" << endl;
+   cout << "To PLAY do the following steps" << endl;
 }
 
 void draw(){
