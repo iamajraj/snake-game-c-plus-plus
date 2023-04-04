@@ -9,11 +9,11 @@ const int ROW = 10;
 const int OFFSET = 1;
 const int start_row = 4;
 const int start_column = 14;
+
 int player_row = start_row;
 int player_column = start_column;
 bool gameOver = true;
 char board[ROW][COLUMN];
-char playerMove[ROW][COLUMN];
 int food_row, food_column;
 int score = 1;
 
@@ -24,7 +24,7 @@ enum DIRECTION {
     BOTTOM = 4
 };
 
-DIRECTION dir;
+void logic(DIRECTION dir);
 
 void instruction(){
    cout << "LEFT = 1" << endl;
@@ -45,20 +45,9 @@ void generateFood(){
 
 void setup(){
    gameOver = false;
-    generateFood();
+   generateFood();
    cout << "#### SNAKE GAME ####" << endl;
    cout << "To PLAY follow the below" << endl;
-
-    for(int i = 0; i<(ROW); i++)
-    {
-        for(int j = 0; j<(COLUMN); j++){
-            playerMove[i][j] = ' ';
-
-            if(i == start_row && j == start_column){
-                playerMove[i][j] = 'a';
-            }
-        }
-    }
 }
 
 void draw(){
@@ -74,22 +63,13 @@ void draw(){
             }else if(j == 0 || j == COLUMN - 1){
                 board[i][0] = '#';
                 board[i][COLUMN - 1] = '#';
+            }else if(i == player_row && j == player_column){
+                    board[i][j] = 'a';
             }else{
                 board[i][j] = ' ';
             }
-
             if(i == food_row && j == food_column){
                 board[i][j] = '*';
-            }
-
-            if(i == player_row && j == player_column){
-                for(int k = 0; k<ROW; k++){
-                    for(int l = 0; l<COLUMN; l++){
-                        if(playerMove[k][l] == 'a'){
-                            board[i][j] = 'a';
-                        }
-                    }
-                }
             }
         }
     }
@@ -110,16 +90,16 @@ void input(){
     cout << endl;
     switch(direction){
         case LEFT:
-            dir = LEFT;
+            logic(LEFT);
             break;
         case RIGHT:
-            dir = RIGHT;
+            logic(RIGHT);
             break;
         case TOP:
-            dir = TOP;
+            logic(TOP);
             break;
         case BOTTOM:
-            dir = BOTTOM;
+            logic(BOTTOM);
             break;
         default:
             cout << "Wrong Move" << endl;
@@ -135,7 +115,7 @@ void check(){
     }
 }
 
-void logic(){
+void logic(DIRECTION dir){
     switch (dir){
         case LEFT:
             if((player_column - 1) < OFFSET){
@@ -184,6 +164,5 @@ int main(){
     while(!gameOver){
         draw();
         input();
-        logic();
     }
 }
